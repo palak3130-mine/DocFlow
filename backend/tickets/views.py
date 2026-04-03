@@ -243,7 +243,7 @@ class AdminDashboardView(APIView):
                 status=status.HTTP_403_FORBIDDEN
             )
 
-        tickets = Ticket.objects.filter(status='approval')
+        tickets = Ticket.objects.all()
 
         serializer = TicketSerializer(tickets, many=True)
 
