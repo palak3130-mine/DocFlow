@@ -76,8 +76,18 @@ class StartTicketView(APIView):
                 status=status.HTTP_403_FORBIDDEN
             )
 
+        old_status = ticket.status
+
         ticket.status = 'started'
         ticket.save()
+
+        # Log status change
+        StatusLog.objects.create(
+            ticket=ticket,
+            old_status=old_status,
+            new_status='started',
+            changed_by=request.user
+        )
 
         return Response(
             {"message": "Ticket started"},
@@ -210,7 +220,9 @@ class MakerDashboardView(APIView):
 
     def get(self, request):
 
-        tickets = Ticket.objects.filter(created_by=request.user)
+        tickets = Ticket.objects.filter(
+            created_by=request.user
+        ).order_by('-created_at')
 
         serializer = TicketSerializer(tickets, many=True)
 

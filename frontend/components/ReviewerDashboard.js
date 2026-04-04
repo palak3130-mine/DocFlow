@@ -1,11 +1,17 @@
+"use client";
+
+import { useState } from "react";
 import Sidebar from "./Sidebar";
 
 export default function ReviewerDashboard() {
 
+  const [activeTab, setActiveTab] = useState("dashboard");
+
   return (
     <div className="flex">
 
-      <Sidebar />
+      <Sidebar setActiveTab={setActiveTab} />
+
 
       <div className="flex-1 p-10">
 

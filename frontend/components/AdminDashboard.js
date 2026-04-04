@@ -353,7 +353,10 @@ return ( <div className="flex min-h-screen">
 
                     {ticket.status === "approval" && (
                       <button
-                        onClick={() => approveTicket(ticket.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          approveTicket(ticket.id);
+                        }}
                         className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition-all duration-200"
                       >
                         Approve
@@ -396,7 +399,7 @@ return ( <div className="flex min-h-screen">
 
             <button
               onClick={() => setCurrentPage(currentPage + 1)}
-              disabled={currentPage === totalPages}
+              disabled={currentPage === totalPages || totalPages === 0}
               className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition-all duration-200"
             >
               Next
